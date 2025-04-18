@@ -38,8 +38,11 @@ let split_on_level inpt =
     match chars with
     | [] -> ((p, String.length inpt)::coms)
     | ','::rem ->
-        if lvl = 0 then ((p,i)::coms) else
-        loop rem (i+2) (i+2) lvl coms 
+        if lvl = 0 then 
+          let rem = List.tl rem in
+          loop rem (i+2) (i+2) 0 ((p,i)::coms) 
+        else
+          loop rem (i+1) p lvl coms 
     | ')'::rem -> loop rem (i+1) p (lvl-1) coms
     | '('::rem -> loop rem (i+1) p (lvl+1) coms
     | _::rem -> loop rem (i+1) p lvl coms
