@@ -3,18 +3,9 @@ let () =
     Printf.printf "[%i] %s\n" i Sys.argv.(i)
   done
 
-type node = {
-  label: string;
-  children: tree list
-}
-and leaf = {
-  label: string;
-}
-and tree =
-  | Leaf of leaf
-  | Node of node
-
-
+type node = { label : string; children : tree list }
+and leaf = { label : string }
+and tree = Leaf of leaf | Node of node
 
 (*
 tree: root (mid_1, mid_2 (leaf1, leaf 2, leaf 3), mid_3), root 2
@@ -68,4 +59,3 @@ nodeleaf1, nodeleaf2, nodeleaf3
 )->
 mid_1
 *)
-
