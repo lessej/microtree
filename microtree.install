@@ -1,8 +1,0 @@
-lib: [
-  "_build/install/default/lib/microtree/META"
-  "_build/install/default/lib/microtree/dune-package"
-  "_build/install/default/lib/microtree/opam"
-]
-bin: [
-  "_build/install/default/bin/microtree"
-]

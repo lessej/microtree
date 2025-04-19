@@ -5,22 +5,22 @@
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github lessej/microtree))
 
-(authors "Author Name")
+(authors "lessej")
 
-(maintainers "Maintainer Name")
+(maintainers "lessej")
 
-(license LICENSE)
+(license MIT)
 
-(documentation https://url/to/documentation)
+(documentation https://github.com/lessej/microtree)
 
 (package
  (name microtree)
- (synopsis "A short synopsis")
- (description "A longer description")
+ (synopsis "A small pretty printer for trees.")
+ (description "A minimal tool to pretty print trees which are defined in a single line.")
  (depends ocaml dune)
  (tags
-  (topics "to describe" your project)))
+  (topics "trees")))
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html
