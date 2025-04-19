@@ -17,7 +17,6 @@ let split_string_at_idxs str idxs =
   in
   iter_pairs idxs [] |> List.map (fun str -> String.trim str)
 
-
 let split_on_level inpt =
   let rec loop chars i prev lvl coms =
     match chars with
