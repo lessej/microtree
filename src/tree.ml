@@ -14,44 +14,6 @@ and tree =
   | Leaf of leaf
   | Node of node
 
-let chars_of_string str = List.init (String.length str) (String.get str)
-
-let split_string_at_idxs str idxs =
-  let rec iter_pairs pairs splits =
-    match pairs with
-    | [] -> splits
-    | (s,e)::rem ->
-        let len = e-s in
-        let sub = String.sub str s len in
-        let splits = 
-          if String.equal sub "" then splits
-          else (sub::splits) 
-        in
-        iter_pairs rem splits
-  in
-  iter_pairs idxs []
-    |> List.map (fun s -> String.trim s)
-
-
-let split_on_level inpt =
-  let rec loop chars i p lvl coms =
-    match chars with
-    | [] -> ((p, String.length inpt)::coms)
-    | ','::rem ->
-        if lvl = 0 then 
-          let rem = List.tl rem in
-          loop rem (i+2) (i+2) 0 ((p,i)::coms) 
-        else
-          loop rem (i+1) p lvl coms 
-    | ')'::rem -> loop rem (i+1) p (lvl-1) coms
-    | '('::rem -> loop rem (i+1) p (lvl+1) coms
-    | _::rem -> loop rem (i+1) p lvl coms
-  in
-  let chars = chars_of_string inpt in
-  let split_idxs = loop chars 0 0 0 [] in
-  split_string_at_idxs inpt split_idxs
-
-
 
 
 (*

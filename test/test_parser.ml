@@ -1,5 +1,6 @@
 open OUnit2
-open Microtree
+open Microtree.Parser
+open Microtree.Tree
 
 let test_split_string_at_idxs _ =
   let test_string = "Hello, World!" in
@@ -58,12 +59,52 @@ let split_on_level_suite =
     "basic" >:: test_split_level;
   ]
 
+let test_into_tree_parts _ =
+  let test_tree tree expected =
+    let (root, children) = into_tree_parts tree in
+    assert_equal (root, children) expected
+  in
+  test_tree "root" ("root", None);
+  test_tree "root (leaf, leaf)" ("root", Some "leaf, leaf") 
+
+let into_tree_parts_suite =
+  "MicrotreeTest into_tree_parts" >::: [
+    "basic" >:: test_into_tree_parts;
+  ]
+
+let test_build_trees _ =
+  let expected = Node {
+    label = "root";
+    children = Node {
+      label = "level 1";
+      children = Leaf { label = "leaf 1" }::Leaf { label = "leaf 2"}::[]
+    }::Leaf { label = "level 1 leaf" }::[]
+  }::[] in
+  let tree_str = "root (level 1 (leaf 1, leaf 2), level 1 leaf)" in
+  let res = build_trees tree_str in
+  assert_equal res expected
+
+let test_build_multiple_trees _ =
+  let expected = Node {
+    label = "root 1";
+    children = Leaf { label = "leaf 1" }::Leaf { label = "leaf 2" }::[]
+  }::Node {
+    label = "root 2";
+    children = Leaf { label = "leaf 3" }::Leaf { label = "leaf 4" }::[]
+  }::[] in
+  let tree_str = "root 1    (    leaf 1 , leaf 2),root 2(leaf 3, leaf 4)" in
+  let res = build_trees tree_str in
+  assert_equal res expected
+
+let build_trees_suite =
+  "MicrotreeTest build_trees" >::: [
+    "basic" >:: test_build_trees;
+    "multiple" >:: test_build_multiple_trees;
+  ]
 
 let () =
   run_test_tt_main split_str_at_idx_suite;
   run_test_tt_main chars_of_str_suite;
-  run_test_tt_main split_on_level_suite
-
-
-
-
+  run_test_tt_main split_on_level_suite;
+  run_test_tt_main into_tree_parts_suite;
+  run_test_tt_main build_trees_suite
