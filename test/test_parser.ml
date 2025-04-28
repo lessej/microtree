@@ -111,10 +111,47 @@ let test_build_multiple_trees _ =
   let res = build_trees tree_str in
   assert_equal res expected
 
+let test_double_tree _ =
+  let expected =
+    [
+      Node
+        {
+          label = "root";
+          children =
+            [
+              Node
+                {
+                  label = "node 1";
+                  children =
+                    [ Leaf { label = "leaf 1" }; Leaf { label = "leaf 2" } ];
+                };
+              Node
+                {
+                  label = "node 2";
+                  children =
+                    [
+                      Leaf { label = "leaf 3" };
+                      Leaf { label = "leaf 4" };
+                      Leaf { label = "leaf 5" };
+                      Leaf { label = "leaf 6" };
+                    ];
+                };
+            ];
+        };
+    ]
+  in
+  let tree_str =
+    "root (node 1 (leaf 1, leaf 2), node 2 (leaf 3, leaf 4, leaf 5, leaf 6))"
+  in
+  let res = build_trees tree_str in
+  assert_equal res expected
+
 let build_trees_suite =
   "MicrotreeTest build_trees"
   >::: [
-         "basic" >:: test_build_trees; "multiple" >:: test_build_multiple_trees;
+         "basic" >:: test_build_trees;
+         "multiple" >:: test_build_multiple_trees;
+         "double" >:: test_double_tree;
        ]
 
 let () =

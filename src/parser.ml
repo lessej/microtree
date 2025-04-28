@@ -21,9 +21,7 @@ let split_on_level inpt =
         if lvl = 0 then (prev, String.length inpt) :: coms
         else failwith "Malformed tree: mismatched parentheses."
     | ',' :: rem ->
-        if lvl = 0 then
-          let rem = List.tl rem in
-          loop rem (i + 1) (i + 1) 0 ((prev, i) :: coms)
+        if lvl = 0 then loop rem (i + 1) (i + 1) 0 ((prev, i) :: coms)
         else loop rem (i + 1) prev lvl coms
     | ')' :: rem -> loop rem (i + 1) prev (lvl - 1) coms
     | '(' :: rem -> loop rem (i + 1) prev (lvl + 1) coms
@@ -53,7 +51,11 @@ let build_trees inpt =
     match children with
     | None -> Leaf { label = root }
     | Some children ->
-        let subtrees = split_on_level children |> List.map (fun t -> loop t) in
+        let subtrees =
+          split_on_level children
+          |> List.map (fun t -> String.trim t)
+          |> List.map (fun t -> loop t)
+        in
         Node { label = root; children = subtrees }
   in
   split_on_level inpt |> List.map (fun t -> loop t)
